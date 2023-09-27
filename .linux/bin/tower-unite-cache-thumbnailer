@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+i=$1
+o=$2
+s=$3
+
+tower-unite-cache $i $o
+magick convert $o -flatten -scale 512x%s png:$o

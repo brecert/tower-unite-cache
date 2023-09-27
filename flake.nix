@@ -7,6 +7,7 @@
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       perSystem = { self', pkgs, ... }: {
         packages.tower-unite-cache = pkgs.callPackage ./.nix/packages/tower-unite-cache {};
+        packages.tower-unite-cache-thumbnailer = pkgs.callPackage ./.nix/packages/tower-unite-cache-thumbnailer {};
         packages.default = self'.packages.tower-unite-cache;
       };
     };

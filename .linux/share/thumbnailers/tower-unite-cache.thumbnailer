@@ -1,0 +1,4 @@
+[Thumbnailer Entry]
+TryExec=tower-unite-cache-thumbnail
+Exec=create-tower-unite-cache-thumbnail %s %i %o
+MimeType=application/x-towerunite-cache;
