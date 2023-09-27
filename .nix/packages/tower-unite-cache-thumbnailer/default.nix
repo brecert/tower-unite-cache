@@ -1,7 +1,9 @@
 { lib
 , stdenv
+, callPackage
+, makeWrapper
 , imagemagick
-, tower-unite-cache ? ../tower-unite-cache
+, tower-unite-cache ? callPackage ../tower-unite-cache {}
 }:
 
 stdenv.mkDerivation {
@@ -9,6 +11,10 @@ stdenv.mkDerivation {
   version = "0.1";
 
   src = ../../..;
+
+  nativeBuildInputs = [
+    makeWrapper
+  ];
 
   buildInputs = [
     imagemagick
@@ -19,7 +25,8 @@ stdenv.mkDerivation {
     runHook preInstall
 
     mv .linux $out
-    chmod +x $out/bin/tower-unite-cache-thumbnailer
+    wrapProgram $out/bin/tower-unite-cache-thumbnailer \
+      --prefix PATH : ${lib.makeBinPath [ imagemagick tower-unite-cache ]}
     
     runHook postInstall
   '';
