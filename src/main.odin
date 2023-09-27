@@ -10,24 +10,24 @@ Error :: union {
 	io.Error,
 }
 
-copy_data_from_cache :: proc(r: io.Reader, w: io.Writer) -> Error {
-	buf: [4]u8
+read_u32 :: proc(r: io.Reader, order: endian.Byte_Order) -> (n: u32, err: io.Error) {
+	buf: [size_of(u32)]u8
 	io.read_full(r, buf[:]) or_return
-    data_len, ok := endian.get_u32(buf[:], .Little)
-    if !ok {
-        return io.Error.Unknown
-    }
-    
-    io.read_full(r, buf[:]) or_return
-    url_len, ok2 := endian.get_u32(buf[:], .Little)
-    if !ok2 {
-        return io.Error.Unknown
-    }
+	val, ok := endian.get_u32(buf[:], order)
+	if !ok {
+		err = io.Error.Unknown
+	}
+	return val, err
+}
 
-    io.seek(r, i64(url_len), .Current) or_return
-    io.copy_n(w, r, i64(data_len)) or_return
+copy_data_from_cache :: proc(r: io.Reader, w: io.Writer) -> Error {
+	data_len := read_u32(r, .Little) or_return
+	url_len := read_u32(r, .Little) or_return
 
-    return io.Error.None
+	io.seek(r, i64(url_len), .Current) or_return
+	io.copy_n(w, r, i64(data_len)) or_return
+
+	return io.Error.None
 }
 
 HELP :: `tower-unite-cache <input> <output>`
@@ -59,8 +59,8 @@ main :: proc() {
 	writeStream := os.stream_from_handle(writeHandle)
 	defer io.close(writeStream)
 
-    err := copy_data_from_cache(readStream, writeStream)
-    if err != io.Error.None {
-        fmt.panicf("could not copy data: {}", err)
-    }
+	err := copy_data_from_cache(readStream, writeStream)
+	if err != io.Error.None {
+		fmt.panicf("could not copy data: {}", err)
+	}
 }
