@@ -10,7 +10,10 @@ stdenv.mkDerivation {
   pname = "tower-unite-cache-thumbnailer";
   version = "0.1";
 
-  src = ../../..;
+  src = builtins.path {
+    name = "tower-unite-cache";
+    path = ../../..;
+  };
 
   nativeBuildInputs = [
     makeWrapper

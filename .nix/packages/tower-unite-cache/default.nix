@@ -7,7 +7,11 @@ stdenv.mkDerivation {
   pname = "tower-unite-cache";
   version = "0.1";
 
-  src = ../../..;
+  src = builtins.path {
+    name = "tower-unite-cache";
+    path = ../../..;
+  };
+
 
   nativeBuildInputs = [
     odin
