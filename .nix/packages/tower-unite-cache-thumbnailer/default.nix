@@ -19,6 +19,7 @@ stdenv.mkDerivation {
     runHook preInstall
 
     mv .linux $out
+    chmod +x $out/bin/tower-unite-cache-thumbnailer
     
     runHook postInstall
   '';
