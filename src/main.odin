@@ -30,7 +30,7 @@ copy_data_from_cache :: proc(r: io.Reader, w: io.Writer) -> Error {
 	return io.Error.None
 }
 
-HELP :: `tower-unite-cache <input> <output>`
+HELP :: "tower-unite-cache <input> <output>\n"
 
 main :: proc() {
 	if len(os.args) != 3 {
