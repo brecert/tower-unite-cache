@@ -24,6 +24,8 @@ stdenv.mkDerivation {
     tower-unite-cache
   ];
 
+  dontBuild = true;
+
   installPhase = ''
     runHook preInstall
 
