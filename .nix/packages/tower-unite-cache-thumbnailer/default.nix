@@ -32,6 +32,8 @@ stdenv.mkDerivation {
     mv .linux $out
     wrapProgram $out/bin/tower-unite-cache-thumbnailer \
       --prefix PATH : ${lib.makeBinPath [ imagemagick tower-unite-cache ]}
+
+    substituteAllInPlace $out/share/thumbnailers/tower-unite-cache.thumbnailer
     
     runHook postInstall
   '';

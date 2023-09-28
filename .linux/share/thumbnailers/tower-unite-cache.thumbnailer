@@ -1,4 +1,4 @@
 [Thumbnailer Entry]
-TryExec=tower-unite-cache-thumbnailer
-Exec=tower-unite-cache-thumbnailer %s %i %o
+TryExec=@out@/bin/tower-unite-cache-thumbnailer
+Exec=@out@/bin/tower-unite-cache-thumbnailer %i %o %s
 MimeType=application/x-towerunite-cache;
